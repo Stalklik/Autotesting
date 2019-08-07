@@ -1,0 +1,68 @@
+import pytest
+import time
+import json
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+
+class TestVK():
+  def setup_method(self, method):
+    self.driver = webdriver.Firefox()
+    self.vars = {}
+  
+  def teardown_method(self, method):
+    self.driver.quit()
+  
+  def test_vK(self):
+    # Test name: vkAuthorization
+    # Step #
+    # 1 | open | / |  | 
+    self.driver.get("https://vk.com/")
+    # 2 | setWindowSize | 1208x824 |  | 
+    self.driver.set_window_size(1208, 824)
+    # 3 | type | id=index_email
+    self.driver.find_element(By.ID, "index_email").send_keys("example@mail.ru")
+    # 4 | type | id=index_pass
+    self.driver.find_element(By.ID, "index_pass").send_keys("asdqwe")
+    # 5 | click | id=index_login_button
+    self.driver.find_element(By.ID, "index_login_button").click()
+
+  
+ def test_vKregistration(self):
+    self.driver.get("https://vk.com/")
+    self.driver.set_window_size(1208, 824)
+    self.driver.find_element(By.ID, "ij_first_name").click()
+    self.driver.find_element(By.ID, "ij_first_name").send_keys("Test")
+    self.driver.find_element(By.ID, "ij_last_name").click()
+    self.driver.find_element(By.ID, "ij_last_name").send_keys("Test")
+    self.driver.find_element(By.ID, "dropdown1").click()
+    element = self.driver.find_element(By.ID, "option_list_options_container_1_3")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).click_and_hold().perform()
+    element = self.driver.find_element(By.CSS_SELECTOR, ".ij_subheader")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).release().perform()
+    self.driver.find_element(By.ID, "ij_form").click()
+    self.driver.find_element(By.CSS_SELECTOR, "#container2 .selector_input").click()
+    element = self.driver.find_element(By.ID, "option_list_options_container_2_6")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).click_and_hold().perform()
+    element = self.driver.find_element(By.ID, "ij_form")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).release().perform()
+    self.driver.find_element(By.ID, "ij_form").click()
+    self.driver.find_element(By.CSS_SELECTOR, "#container3 .selector_input").click()
+    element = self.driver.find_element(By.ID, "option_list_options_container_3_6")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).click_and_hold().perform()
+    element = self.driver.find_element(By.ID, "ij_last_name")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).release().perform()
+    self.driver.find_element(By.ID, "ij_form").click()
+    self.driver.find_element(By.ID, "ij_submit").click()
+    self.driver.find_element(By.CSS_SELECTOR, ".radiobtn:nth-child(3)").click()
+    self.driver.find_element(By.ID, "ij_submit").click()
+    self.driver.close()
